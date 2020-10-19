@@ -1,0 +1,302 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ModelDB.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="ModelDBStoreContainer">
+          <EntitySet Name="ДоговорНабор" EntityType="ModelDB.Store.ДоговорНабор" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Контактное_ЛицоНабор" EntityType="ModelDB.Store.Контактное_ЛицоНабор" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="ОрганизацияНабор" EntityType="ModelDB.Store.ОрганизацияНабор" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="ПриложениеДоговораНабор" EntityType="ModelDB.Store.ПриложениеДоговораНабор" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <AssociationSet Name="FK_ДоговорПриложениеДоговора" Association="ModelDB.Store.FK_ДоговорПриложениеДоговора">
+            <End Role="ДоговорНабор" EntitySet="ДоговорНабор" />
+            <End Role="ПриложениеДоговораНабор" EntitySet="ПриложениеДоговораНабор" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Контактное_ЛицоДоговор" Association="ModelDB.Store.FK_Контактное_ЛицоДоговор">
+            <End Role="Контактное_ЛицоНабор" EntitySet="Контактное_ЛицоНабор" />
+            <End Role="ДоговорНабор" EntitySet="ДоговорНабор" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ОрганизацияДоговор" Association="ModelDB.Store.FK_ОрганизацияДоговор">
+            <End Role="ОрганизацияНабор" EntitySet="ОрганизацияНабор" />
+            <End Role="ДоговорНабор" EntitySet="ДоговорНабор" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="ДоговорНабор">
+          <Key>
+            <PropertyRef Name="Номер" />
+          </Key>
+          <Property Name="Номер" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Название" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Дата_начала_действия" Type="datetime" Nullable="false" />
+          <Property Name="Дата_окончания_действия" Type="datetime" Nullable="false" />
+          <Property Name="Максимальная_сумма" Type="float" Nullable="false" />
+          <Property Name="Контактное_ЛицоНомер1" Type="int" Nullable="false" />
+          <Property Name="ОрганизацияНомер1" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Контактное_ЛицоНабор">
+          <Key>
+            <PropertyRef Name="Номер" />
+          </Key>
+          <Property Name="Номер" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ФИО" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Телефон" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Место_работы" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Адрес_проживания" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Персональные_данные" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ОрганизацияНабор">
+          <Key>
+            <PropertyRef Name="Номер" />
+          </Key>
+          <Property Name="Номер" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Название" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Адрес" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ФИО_Начальника" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ПриложениеДоговораНабор">
+          <Key>
+            <PropertyRef Name="Номер" />
+          </Key>
+          <Property Name="Номер" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ДоговорНомер" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ТипДокумента" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Содержание" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ДатаСоставления" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ДоговорНомер1" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_ДоговорПриложениеДоговора">
+          <End Role="ДоговорНабор" Type="ModelDB.Store.ДоговорНабор" Multiplicity="1" />
+          <End Role="ПриложениеДоговораНабор" Type="ModelDB.Store.ПриложениеДоговораНабор" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ДоговорНабор">
+              <PropertyRef Name="Номер" />
+            </Principal>
+            <Dependent Role="ПриложениеДоговораНабор">
+              <PropertyRef Name="ДоговорНомер1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Контактное_ЛицоДоговор">
+          <End Role="Контактное_ЛицоНабор" Type="ModelDB.Store.Контактное_ЛицоНабор" Multiplicity="1" />
+          <End Role="ДоговорНабор" Type="ModelDB.Store.ДоговорНабор" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Контактное_ЛицоНабор">
+              <PropertyRef Name="Номер" />
+            </Principal>
+            <Dependent Role="ДоговорНабор">
+              <PropertyRef Name="Контактное_ЛицоНомер1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ОрганизацияДоговор">
+          <End Role="ОрганизацияНабор" Type="ModelDB.Store.ОрганизацияНабор" Multiplicity="1" />
+          <End Role="ДоговорНабор" Type="ModelDB.Store.ДоговорНабор" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ОрганизацияНабор">
+              <PropertyRef Name="Номер" />
+            </Principal>
+            <Dependent Role="ДоговорНабор">
+              <PropertyRef Name="ОрганизацияНомер1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ModelDB" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2009/11/edm" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+        <EntityContainer Name="ModelDBContainer" annotation:LazyLoadingEnabled="true" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+          <EntitySet Name="Контактное_ЛицоНабор" EntityType="ModelDB.Контактное_Лицо" />
+          <EntitySet Name="ДоговорНабор" EntityType="ModelDB.Договор" />
+          <EntitySet Name="ПриложениеДоговораНабор" EntityType="ModelDB.ПриложениеДоговора" />
+          <EntitySet Name="ОрганизацияНабор" EntityType="ModelDB.Организация" />
+          <AssociationSet Name="Контактное_ЛицоДоговор" Association="ModelDB.Контактное_ЛицоДоговор">
+            <End Role="Контактное_Лицо" EntitySet="Контактное_ЛицоНабор" />
+            <End Role="Договор" EntitySet="ДоговорНабор" />
+          </AssociationSet>
+          <AssociationSet Name="ДоговорПриложениеДоговора" Association="ModelDB.ДоговорПриложениеДоговора">
+            <End Role="Договор" EntitySet="ДоговорНабор" />
+            <End Role="ПриложениеДоговора" EntitySet="ПриложениеДоговораНабор" />
+          </AssociationSet>
+          <AssociationSet Name="ОрганизацияДоговор" Association="ModelDB.ОрганизацияДоговор">
+            <End Role="Организация" EntitySet="ОрганизацияНабор" />
+            <End Role="Договор" EntitySet="ДоговорНабор" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Контактное_Лицо">
+          <Key>
+            <PropertyRef Name="Номер" />
+          </Key>
+          <Property Type="Int32" Name="Номер" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Type="String" Name="ФИО" Nullable="false" />
+          <Property Type="String" Name="Телефон" Nullable="false" />
+          <Property Type="String" Name="Место_работы" Nullable="false" />
+          <Property Type="String" Name="Адрес_проживания" Nullable="false" />
+          <Property Type="String" Name="Персональные_данные" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Договор">
+          <Key>
+            <PropertyRef Name="Номер" />
+          </Key>
+          <Property Type="Int32" Name="Номер" Nullable="false" ConcurrencyMode="None" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Type="String" Name="Название" Nullable="false" />
+          <Property Type="DateTime" Name="Дата_начала_действия" Nullable="false" />
+          <Property Type="DateTime" Name="Дата_окончания_действия" Nullable="false" />
+          <Property Type="Double" Name="Максимальная_сумма" Nullable="false" />
+          <NavigationProperty Name="Контактное_Лицо" Relationship="ModelDB.Контактное_ЛицоДоговор" FromRole="Договор" ToRole="Контактное_Лицо" />
+          <Property Type="Int32" Name="Контактное_ЛицоНомер1" Nullable="false" />
+          <NavigationProperty Name="Организация" Relationship="ModelDB.ОрганизацияДоговор" FromRole="Договор" ToRole="Организация" />
+          <Property Type="Int32" Name="ОрганизацияНомер1" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ПриложениеДоговора">
+          <Key>
+            <PropertyRef Name="Номер" />
+          </Key>
+          <Property Type="Int32" Name="Номер" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Type="Guid" Name="ДоговорНомер" Nullable="false" ConcurrencyMode="None" />
+          <Property Type="String" Name="ТипДокумента" Nullable="false" />
+          <Property Type="String" Name="Содержание" Nullable="false" />
+          <Property Type="String" Name="ДатаСоставления" Nullable="false" />
+          <NavigationProperty Name="Договор" Relationship="ModelDB.ДоговорПриложениеДоговора" FromRole="ПриложениеДоговора" ToRole="Договор" />
+          <Property Type="Int32" Name="ДоговорНомер1" Nullable="false" ConcurrencyMode="None" />
+        </EntityType>
+        <EntityType Name="Организация">
+          <Key>
+            <PropertyRef Name="Номер" />
+          </Key>
+          <Property Type="Int32" Name="Номер" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Type="String" Name="Название" Nullable="false" />
+          <Property Type="String" Name="Адрес" Nullable="false" />
+          <Property Type="String" Name="ФИО_Начальника" Nullable="false" />
+        </EntityType>
+        <Association Name="Контактное_ЛицоДоговор">
+          <End Type="ModelDB.Контактное_Лицо" Role="Контактное_Лицо" Multiplicity="1" />
+          <End Type="ModelDB.Договор" Role="Договор" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Контактное_Лицо">
+              <PropertyRef Name="Номер" />
+            </Principal>
+            <Dependent Role="Договор">
+              <PropertyRef Name="Контактное_ЛицоНомер1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ДоговорПриложениеДоговора">
+          <End Type="ModelDB.Договор" Role="Договор" Multiplicity="1" />
+          <End Type="ModelDB.ПриложениеДоговора" Role="ПриложениеДоговора" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Договор">
+              <PropertyRef Name="Номер" />
+            </Principal>
+            <Dependent Role="ПриложениеДоговора">
+              <PropertyRef Name="ДоговорНомер1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ОрганизацияДоговор">
+          <End Type="ModelDB.Организация" Role="Организация" Multiplicity="1" />
+          <End Type="ModelDB.Договор" Role="Договор" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Организация">
+              <PropertyRef Name="Номер" />
+            </Principal>
+            <Dependent Role="Договор">
+              <PropertyRef Name="ОрганизацияНомер1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ModelDBStoreContainer" CdmEntityContainer="ModelDBContainer">
+    <EntitySetMapping Name="Контактное_ЛицоНабор">
+      <EntityTypeMapping TypeName="IsTypeOf(ModelDB.Контактное_Лицо)">
+        <MappingFragment StoreEntitySet="Контактное_ЛицоНабор">
+          <ScalarProperty Name="Номер" ColumnName="Номер" />
+          <ScalarProperty Name="ФИО" ColumnName="ФИО" />
+          <ScalarProperty Name="Телефон" ColumnName="Телефон" />
+          <ScalarProperty Name="Место_работы" ColumnName="Место_работы" />
+          <ScalarProperty Name="Адрес_проживания" ColumnName="Адрес_проживания" />
+          <ScalarProperty Name="Персональные_данные" ColumnName="Персональные_данные" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ДоговорНабор">
+      <EntityTypeMapping TypeName="IsTypeOf(ModelDB.Договор)">
+        <MappingFragment StoreEntitySet="ДоговорНабор">
+          <ScalarProperty Name="Номер" ColumnName="Номер" />
+          <ScalarProperty Name="Название" ColumnName="Название" />
+          <ScalarProperty Name="Дата_начала_действия" ColumnName="Дата_начала_действия" />
+          <ScalarProperty Name="Дата_окончания_действия" ColumnName="Дата_окончания_действия" />
+          <ScalarProperty Name="Максимальная_сумма" ColumnName="Максимальная_сумма" />
+          <ScalarProperty Name="Контактное_ЛицоНомер1" ColumnName="Контактное_ЛицоНомер1" />
+          <ScalarProperty Name="ОрганизацияНомер1" ColumnName="ОрганизацияНомер1" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ПриложениеДоговораНабор">
+      <EntityTypeMapping TypeName="IsTypeOf(ModelDB.ПриложениеДоговора)">
+        <MappingFragment StoreEntitySet="ПриложениеДоговораНабор">
+          <ScalarProperty Name="Номер" ColumnName="Номер" />
+          <ScalarProperty Name="ДоговорНомер" ColumnName="ДоговорНомер" />
+          <ScalarProperty Name="ТипДокумента" ColumnName="ТипДокумента" />
+          <ScalarProperty Name="Содержание" ColumnName="Содержание" />
+          <ScalarProperty Name="ДатаСоставления" ColumnName="ДатаСоставления" />
+          <ScalarProperty Name="ДоговорНомер1" ColumnName="ДоговорНомер1" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ОрганизацияНабор">
+      <EntityTypeMapping TypeName="IsTypeOf(ModelDB.Организация)">
+        <MappingFragment StoreEntitySet="ОрганизацияНабор">
+          <ScalarProperty Name="Номер" ColumnName="Номер" />
+          <ScalarProperty Name="Название" ColumnName="Название" />
+          <ScalarProperty Name="Адрес" ColumnName="Адрес" />
+          <ScalarProperty Name="ФИО_Начальника" ColumnName="ФИО_Начальника" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer>
+    <edmx:Connection>
+      <edmx:DesignerInfoPropertySet>
+        <edmx:DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </edmx:DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <edmx:DesignerInfoPropertySet>
+        <edmx:DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <edmx:DesignerProperty Name="EnablePluralization" Value="False" />
+        <edmx:DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </edmx:DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <edmx:Diagram Name="ModelDB" ZoomLevel="83">
+        <edmx:EntityTypeShape EntityType="ModelDB.Контактное_Лицо" Width="1.875" PointX="1.5" PointY="2.625" Height="2.1725878906249996" />
+        <edmx:EntityTypeShape EntityType="ModelDB.Договор" Width="2.625" PointX="5.375" PointY="3.125" Height="2.7494921874999996" />
+        <edmx:EntityTypeShape EntityType="ModelDB.ПриложениеДоговора" Width="1.75" PointX="9.375" PointY="3.875" Height="2.3648893229166665" />
+        <edmx:EntityTypeShape EntityType="ModelDB.Организация" Width="1.875" PointX="7.875" PointY="0.5" Height="1.7879850260416657" />
+        <edmx:AssociationConnector Association="ModelDB.Контактное_ЛицоДоговор">
+          <edmx:ConnectorPoint PointX="3.5" PointY="4.5862939453125" />
+          <edmx:ConnectorPoint PointX="5.375" PointY="4.5862939453125" />
+        </edmx:AssociationConnector>
+        <edmx:AssociationConnector Association="ModelDB.ДоговорПриложениеДоговора">
+          <edmx:ConnectorPoint PointX="8" PointY="4.46875" />
+          <edmx:ConnectorPoint PointX="9.375" PointY="4.46875" />
+        </edmx:AssociationConnector>
+        <edmx:AssociationConnector Association="ModelDB.ОрганизацияДоговор">
+          <edmx:ConnectorPoint PointX="8.6875025" PointY="2.2879850260416656" />
+          <edmx:ConnectorPoint PointX="8.6875025" PointY="3.46875" />
+          <edmx:ConnectorPoint PointX="8" PointY="3.46875" />
+        </edmx:AssociationConnector>
+      </edmx:Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ModelDB.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+  <EntityContainer Name="ModelDBStoreContainer">
+    <EntitySet Name="ДоговорНабор" EntityType="ModelDB.Store.ДоговорНабор" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Контактное_ЛицоНабор" EntityType="ModelDB.Store.Контактное_ЛицоНабор" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ОрганизацияНабор" EntityType="ModelDB.Store.ОрганизацияНабор" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ПриложениеДоговораНабор" EntityType="ModelDB.Store.ПриложениеДоговораНабор" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_ДоговорПриложениеДоговора" Association="ModelDB.Store.FK_ДоговорПриложениеДоговора">
+      <End Role="ДоговорНабор" EntitySet="ДоговорНабор" />
+      <End Role="ПриложениеДоговораНабор" EntitySet="ПриложениеДоговораНабор" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Контактное_ЛицоДоговор" Association="ModelDB.Store.FK_Контактное_ЛицоДоговор">
+      <End Role="Контактное_ЛицоНабор" EntitySet="Контактное_ЛицоНабор" />
+      <End Role="ДоговорНабор" EntitySet="ДоговорНабор" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ОрганизацияДоговор" Association="ModelDB.Store.FK_ОрганизацияДоговор">
+      <End Role="ОрганизацияНабор" EntitySet="ОрганизацияНабор" />
+      <End Role="ДоговорНабор" EntitySet="ДоговорНабор" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="ДоговорНабор">
+    <Key>
+      <PropertyRef Name="Номер" />
+    </Key>
+    <Property Name="Номер" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Название" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Дата_начала_действия" Type="datetime" Nullable="false" />
+    <Property Name="Дата_окончания_действия" Type="datetime" Nullable="false" />
+    <Property Name="Максимальная_сумма" Type="float" Nullable="false" />
+    <Property Name="Контактное_ЛицоНомер1" Type="int" Nullable="false" />
+    <Property Name="ОрганизацияНомер1" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Контактное_ЛицоНабор">
+    <Key>
+      <PropertyRef Name="Номер" />
+    </Key>
+    <Property Name="Номер" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="ФИО" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Телефон" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Место_работы" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Адрес_проживания" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Персональные_данные" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ОрганизацияНабор">
+    <Key>
+      <PropertyRef Name="Номер" />
+    </Key>
+    <Property Name="Номер" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Название" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Адрес" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ФИО_Начальника" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ПриложениеДоговораНабор">
+    <Key>
+      <PropertyRef Name="Номер" />
+    </Key>
+    <Property Name="Номер" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="ДоговорНомер" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="ТипДокумента" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Содержание" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ДатаСоставления" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ДоговорНомер1" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_ДоговорПриложениеДоговора">
+    <End Role="ДоговорНабор" Type="ModelDB.Store.ДоговорНабор" Multiplicity="1" />
+    <End Role="ПриложениеДоговораНабор" Type="ModelDB.Store.ПриложениеДоговораНабор" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ДоговорНабор">
+        <PropertyRef Name="Номер" />
+      </Principal>
+      <Dependent Role="ПриложениеДоговораНабор">
+        <PropertyRef Name="ДоговорНомер1" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Контактное_ЛицоДоговор">
+    <End Role="Контактное_ЛицоНабор" Type="ModelDB.Store.Контактное_ЛицоНабор" Multiplicity="1" />
+    <End Role="ДоговорНабор" Type="ModelDB.Store.ДоговорНабор" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Контактное_ЛицоНабор">
+        <PropertyRef Name="Номер" />
+      </Principal>
+      <Dependent Role="ДоговорНабор">
+        <PropertyRef Name="Контактное_ЛицоНомер1" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ОрганизацияДоговор">
+    <End Role="ОрганизацияНабор" Type="ModelDB.Store.ОрганизацияНабор" Multiplicity="1" />
+    <End Role="ДоговорНабор" Type="ModelDB.Store.ДоговорНабор" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ОрганизацияНабор">
+        <PropertyRef Name="Номер" />
+      </Principal>
+      <Dependent Role="ДоговорНабор">
+        <PropertyRef Name="ОрганизацияНомер1" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema xmlns="http://schemas.microsoft.com/ado/2008/09/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="ModelDB" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+  <EntityContainer Name="ModelDBContainer" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Контактное_ЛицоНабор" EntityType="ModelDB.Контактное_Лицо" />
+    <EntitySet Name="ДоговорНабор" EntityType="ModelDB.Договор" />
+    <EntitySet Name="ПриложениеДоговораНабор" EntityType="ModelDB.ПриложениеДоговора" />
+    <EntitySet Name="ОрганизацияНабор" EntityType="ModelDB.Организация" />
+    <AssociationSet Name="Контактное_ЛицоДоговор" Association="ModelDB.Контактное_ЛицоДоговор">
+      <End Role="Контактное_Лицо" EntitySet="Контактное_ЛицоНабор" />
+      <End Role="Договор" EntitySet="ДоговорНабор" />
+    </AssociationSet>
+    <AssociationSet Name="ДоговорПриложениеДоговора" Association="ModelDB.ДоговорПриложениеДоговора">
+      <End Role="Договор" EntitySet="ДоговорНабор" />
+      <End Role="ПриложениеДоговора" EntitySet="ПриложениеДоговораНабор" />
+    </AssociationSet>
+    <AssociationSet Name="ОрганизацияДоговор" Association="ModelDB.ОрганизацияДоговор">
+      <End Role="Организация" EntitySet="ОрганизацияНабор" />
+      <End Role="Договор" EntitySet="ДоговорНабор" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Контактное_Лицо">
+    <Key>
+      <PropertyRef Name="Номер" />
+    </Key>
+    <Property Type="Int32" Name="Номер" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="ФИО" Nullable="false" />
+    <Property Type="String" Name="Телефон" Nullable="false" />
+    <Property Type="String" Name="Место_работы" Nullable="false" />
+    <Property Type="String" Name="Адрес_проживания" Nullable="false" />
+    <Property Type="String" Name="Персональные_данные" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Договор">
+    <Key>
+      <PropertyRef Name="Номер" />
+    </Key>
+    <Property Type="Int32" Name="Номер" Nullable="false" ConcurrencyMode="None" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="Название" Nullable="false" />
+    <Property Type="DateTime" Name="Дата_начала_действия" Nullable="false" />
+    <Property Type="DateTime" Name="Дата_окончания_действия" Nullable="false" />
+    <Property Type="Double" Name="Максимальная_сумма" Nullable="false" />
+    <NavigationProperty Name="Контактное_Лицо" Relationship="ModelDB.Контактное_ЛицоДоговор" FromRole="Договор" ToRole="Контактное_Лицо" />
+    <Property Type="Int32" Name="Контактное_ЛицоНомер1" Nullable="false" />
+    <NavigationProperty Name="Организация" Relationship="ModelDB.ОрганизацияДоговор" FromRole="Договор" ToRole="Организация" />
+    <Property Type="Int32" Name="ОрганизацияНомер1" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ПриложениеДоговора">
+    <Key>
+      <PropertyRef Name="Номер" />
+    </Key>
+    <Property Type="Int32" Name="Номер" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Guid" Name="ДоговорНомер" Nullable="false" ConcurrencyMode="None" />
+    <Property Type="String" Name="ТипДокумента" Nullable="false" />
+    <Property Type="String" Name="Содержание" Nullable="false" />
+    <Property Type="String" Name="ДатаСоставления" Nullable="false" />
+    <NavigationProperty Name="Договор" Relationship="ModelDB.ДоговорПриложениеДоговора" FromRole="ПриложениеДоговора" ToRole="Договор" />
+    <Property Type="Int32" Name="ДоговорНомер1" Nullable="false" ConcurrencyMode="None" />
+  </EntityType>
+  <EntityType Name="Организация">
+    <Key>
+      <PropertyRef Name="Номер" />
+    </Key>
+    <Property Type="Int32" Name="Номер" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="Название" Nullable="false" />
+    <Property Type="String" Name="Адрес" Nullable="false" />
+    <Property Type="String" Name="ФИО_Начальника" Nullable="false" />
+  </EntityType>
+  <Association Name="Контактное_ЛицоДоговор">
+    <End Type="ModelDB.Контактное_Лицо" Role="Контактное_Лицо" Multiplicity="1" />
+    <End Type="ModelDB.Договор" Role="Договор" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Контактное_Лицо">
+        <PropertyRef Name="Номер" />
+      </Principal>
+      <Dependent Role="Договор">
+        <PropertyRef Name="Контактное_ЛицоНомер1" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ДоговорПриложениеДоговора">
+    <End Type="ModelDB.Договор" Role="Договор" Multiplicity="1" />
+    <End Type="ModelDB.ПриложениеДоговора" Role="ПриложениеДоговора" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Договор">
+        <PropertyRef Name="Номер" />
+      </Principal>
+      <Dependent Role="ПриложениеДоговора">
+        <PropertyRef Name="ДоговорНомер1" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ОрганизацияДоговор">
+    <End Type="ModelDB.Организация" Role="Организация" Multiplicity="1" />
+    <End Type="ModelDB.Договор" Role="Договор" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Организация">
+        <PropertyRef Name="Номер" />
+      </Principal>
+      <Dependent Role="Договор">
+        <PropertyRef Name="ОрганизацияНомер1" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

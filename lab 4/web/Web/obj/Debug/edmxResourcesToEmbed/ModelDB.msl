@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ModelDBStoreContainer" CdmEntityContainer="ModelDBContainer">
+    <EntitySetMapping Name="Контактное_ЛицоНабор">
+      <EntityTypeMapping TypeName="IsTypeOf(ModelDB.Контактное_Лицо)">
+        <MappingFragment StoreEntitySet="Контактное_ЛицоНабор">
+          <ScalarProperty Name="Номер" ColumnName="Номер" />
+          <ScalarProperty Name="ФИО" ColumnName="ФИО" />
+          <ScalarProperty Name="Телефон" ColumnName="Телефон" />
+          <ScalarProperty Name="Место_работы" ColumnName="Место_работы" />
+          <ScalarProperty Name="Адрес_проживания" ColumnName="Адрес_проживания" />
+          <ScalarProperty Name="Персональные_данные" ColumnName="Персональные_данные" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ДоговорНабор">
+      <EntityTypeMapping TypeName="IsTypeOf(ModelDB.Договор)">
+        <MappingFragment StoreEntitySet="ДоговорНабор">
+          <ScalarProperty Name="Номер" ColumnName="Номер" />
+          <ScalarProperty Name="Название" ColumnName="Название" />
+          <ScalarProperty Name="Дата_начала_действия" ColumnName="Дата_начала_действия" />
+          <ScalarProperty Name="Дата_окончания_действия" ColumnName="Дата_окончания_действия" />
+          <ScalarProperty Name="Максимальная_сумма" ColumnName="Максимальная_сумма" />
+          <ScalarProperty Name="Контактное_ЛицоНомер1" ColumnName="Контактное_ЛицоНомер1" />
+          <ScalarProperty Name="ОрганизацияНомер1" ColumnName="ОрганизацияНомер1" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ПриложениеДоговораНабор">
+      <EntityTypeMapping TypeName="IsTypeOf(ModelDB.ПриложениеДоговора)">
+        <MappingFragment StoreEntitySet="ПриложениеДоговораНабор">
+          <ScalarProperty Name="Номер" ColumnName="Номер" />
+          <ScalarProperty Name="ДоговорНомер" ColumnName="ДоговорНомер" />
+          <ScalarProperty Name="ТипДокумента" ColumnName="ТипДокумента" />
+          <ScalarProperty Name="Содержание" ColumnName="Содержание" />
+          <ScalarProperty Name="ДатаСоставления" ColumnName="ДатаСоставления" />
+          <ScalarProperty Name="ДоговорНомер1" ColumnName="ДоговорНомер1" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ОрганизацияНабор">
+      <EntityTypeMapping TypeName="IsTypeOf(ModelDB.Организация)">
+        <MappingFragment StoreEntitySet="ОрганизацияНабор">
+          <ScalarProperty Name="Номер" ColumnName="Номер" />
+          <ScalarProperty Name="Название" ColumnName="Название" />
+          <ScalarProperty Name="Адрес" ColumnName="Адрес" />
+          <ScalarProperty Name="ФИО_Начальника" ColumnName="ФИО_Начальника" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
